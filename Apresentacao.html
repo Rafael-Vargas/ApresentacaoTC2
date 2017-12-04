@@ -1,0 +1,2124 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Apresentação TCC</title>
+
+		<link rel="stylesheet" href="reveal/css/reveal.css">
+		<link rel="stylesheet" href="reveal/css/theme/simple.css">
+		<link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+		<style type="text/css">
+			.left {
+				text-align: left;
+				float: left;
+				width:40%;
+				z-index:-10;
+			}
+
+			.right {
+				top: 75px;
+				float: right;
+				text-align: right;
+				z-index:-10;
+				width:60%;
+			}	
+			
+			.left50 {
+				text-align: left;
+				float: left;
+				width:50%;
+				z-index:-10;
+			}
+
+			.right50 {
+				top: 75px;
+				float: right;
+				text-align: right;
+				z-index:-10;
+				width:50%;
+			}			
+
+		</style>
+
+	</head>
+	
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				
+				<section>
+					<h4>ANÁLISE COMPARATIVA DO SGBD SQL SERVER BASEADO EM DISCO E EM MEMÓRIA</h4>
+					<p>	&nbsp; </p>
+					<p>Rafael Carcuchinski Vargas</p>
+					<p>	&nbsp; </p>
+					<p>	&nbsp; </p>
+					<p>Orientador: Edvar Bergmann Araújo</p>
+				</section>
+				
+				<section>
+					<h3> Roteiro </h3>
+					<p>	&nbsp; </p>
+					<p>	&nbsp; </p>
+					
+					<ul>
+						<li>INTRODUÇÃO</li>
+						<li>REFERENCIAL TEÓRICO</li>
+						<li>PREPARAÇÃO DO AMBIENTE</li>
+						<li>EXPERIMENTOS REALIZADOS</li>
+						<li>TRABALHO RELACIONADO</li>
+						<li>CONCLUSÃO</li>
+					</ul>
+				</section>
+				
+				<section data-transition="slide-in fade-out">
+					<p> Introdução - <b>MOTIVAÇÃO</b> </p>
+					
+					<!--
+					-Saber das suas limitações
+					-o que existe de novo
+					-conhecer sobre o armazenamento em memória (que hoje nao é utilizado na empresa)
+					-->
+					<img src="img/sql2016.jpg" style="width: 500px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+				</section>		
+				
+				<section>
+					<p> Introdução - <b>OBJETIVOS</b> </p>
+					<p> Prós e contras de memória e disco</p>
+					<img src="img/dm.png" style="border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+				</section>					
+			
+
+				<section class="stack past">
+
+					<section>
+						<p> Referencial Teórico - <b>POR QUE MEMÓRIA?</b> </p>
+						<p>	Custo por GB </p>
+						<img src="img/mempreco.png" style="border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+					</section>						
+
+					<section>
+						<p> Referencial Teórico - <b>POR QUE MEMÓRIA?</b> </p>
+						<p>	Relação tempo e dinheiro </p>
+						<img src="img/tempodinheiro.jpg" style="border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+					</section>					
+
+					<section>
+						<p> Referencial Teórico - <b>Concorrentes</b> </p>
+						<p>&nbsp;</p>
+						<div class="fade-up">
+							<img src="img/timesten_logo.bmp" style="width:400px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+							<img src="img/sap_logo.png" style="width:400px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						</div>
+					</section>						
+					
+					<section>
+						<p> Referencial Teórico - <b>ÍNDICES EXCLUSIVOS DA MEMÓRIA</b> </p>
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
+						<!--<img src="img/armazenamento.jpg" style="width: 500px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">-->
+						<ul>
+							<li>Memory-Optimized Nonclustered Index</li>
+							<li>Hash Index</li>
+						<ul>
+					</section>							
+
+					<section>
+						<p> Referencial Teórico - <b>ARQUITETURA</b> </p>
+						<img src="img/arquitetura.jpg" style="width: 80%;">
+					</section>				
+				
+					<section>
+						<p> Referencial Teórico - <b>COMPRESSÃO</b> </p>
+						<p>	Compressão por linha </p>
+						<div>
+							<table class="fragment fade-right">
+								<thead>
+									<tr>
+										<th></th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td style="text-align: left;"><b>Valor</b></td>
+										<td>125</td>
+										<td>SQL</td>
+									</tr>
+									<tr>
+										<td style="text-align: left;"><b>Tipo de Dado</b></td>
+										<td>Int</td>
+										<td>Char (20)</td>
+									</tr>
+									<tr>
+										<td style="text-align: left;"><b>Espaço Ocupado</b></td>
+										<td>4 Bytes</td>
+										<td>20 Bytes</td>
+									</tr>
+								</tbody>
+							</table>	
+							<img class="fragment fade-up" src="img/flechaBaixo.png" style="width:100px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+							<table class="fragment fade-right">
+								<thead>
+									<tr>
+										<th></th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td style="text-align: left;"><b>Valor</b></td>
+										<td>125</td>
+										<td>SQL</td>
+									</tr>
+									<tr>
+										<td style="text-align: left;"><b>Tipo de Dado</b></td>
+										<td>TinyInt</td>
+										<td>Char (3)</td>
+									</tr>
+									<tr>
+										<td style="text-align: left;"><b>Espaço Ocupado</b></td>
+										<td>1 Byte</td>
+										<td>3 Bytes</td>
+									</tr>
+								</tbody>
+							</table>							
+							
+						</div>
+						
+						
+						
+					</section>									
+					
+					<section>
+						<p> Referencial Teórico - <b>COMPRESSÃO</b> </p>
+						<p>	Compressão por página </p>
+						<div>
+							<table class="fragment fade-right">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Nome</th>
+										<th>Sobrenome</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td style="text-align: right;">123</td>
+										<td>Alexander</td>
+										<td>Smith</td>
+									</tr>
+									<tr>
+										<td style="text-align: right;">789</td>
+										<td>Alexandra</td>
+										<td>Smith</td>
+									</tr>				
+									<tr>
+										<td style="text-align: right;">1234</td>
+										<td>Alexis</td>
+										<td>Smith</td>
+									</tr>		
+									<tr>
+										<td style="text-align: right;">1287</td>
+										<td>Andrew</td>
+										<td>Smith</td>
+									</tr>	
+									<tr>
+										<td style="text-align: right;">1789</td>
+										<td>Austin</td>
+										<td>Smith</td>
+									</tr>									
+								</tbody>
+							</table>	
+							<img class="fragment fade-up" src="img/flechaBaixo.png" style="width:75px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+
+							<table class="fragment fade-right">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Nome</th>
+										<th>Sobrenome</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td style="text-align: right; background-color: black; color: white;">1234</td>
+										<td style="background-color: black; color: white;">Alexander</td>
+										<td style="background-color: black; color: white;">Smith</td>
+									</tr>
+									<tr>
+										<td style="text-align: right;">[3]</td>
+										<td>[NULL]</td>
+										<td>[NULL]</td>
+									</tr>				
+									<tr>
+										<td style="text-align: right;">789</td>
+										<td>[7]ra</td>
+										<td>[NULL]</td>
+									</tr>				
+									<tr>
+										<td style="text-align: right;">[NULL]</td>
+										<td>[4]is</td>
+										<td>[NULL]</td>
+									</tr>				
+									<tr>
+										<td style="text-align: right;">[2]87</td>
+										<td>[1]ndrew</td>
+										<td>[NULL]</td>
+									</tr>				
+									<tr>
+										<td style="text-align: right;">[1]789</td>
+										<td>[1]ustin</td>
+										<td>[NULL]</td>
+									</tr>													
+								</tbody>
+							</table>						
+							
+						</div>
+						
+					</section>						
+					
+					<section>
+						<p> Referencial Teórico - <b>CONVERSÃO</b> </p>
+						<p>Como transformar disco em memória?</p>
+						<pre>
+							<code class="sql" data-trim contenteditable style="text-align: left;">
+								CREATE TABLE Pessoa (
+									CodPessoa Int NOT NULL PRIMARY KEY,
+									Nome Varchar(100) NOT NULL,
+									CPF INT NOT NULL
+								)
+								/* NONCLUSTERED HASH WITH (BUCKET_COUNT = 1000)
+								WITH (MEMORY_OPTIMIZED = ON, DURABILITY = SCHEMA_AND_DATA) */
+							</code>
+						</pre>
+					</section>
+					
+					
+				</section>
+				
+				<section>
+					<p> Preparação do Ambiente - <b>DADOS</b> </p>
+					<p>	&nbsp; </p>
+						<table>
+							<thead>
+								<tr>
+									<th style="text-align: left;">Tabela</th>
+									<th>Registros</th>
+									<th>Tamanho Arquivo</th>
+									<th>Ponto de Quebra</th>
+									<th>Arquivos Gerados</th>
+									<th>Tempo</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="text-align: left;">Users</td>
+									<td style="text-align: right;">5.987.285</td>
+									<td style="text-align: right;">1.7 GB	</td>
+									<td style="text-align: right;">200.000	</td>
+									<td style="text-align: right;">30	</td>
+									<td>00:02:34</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Badges</td>
+									<td style="text-align: right;">18.395.121</td>
+									<td style="text-align: right;">2.1 GB</td>
+									<td style="text-align: right;">500.000</td>
+									<td style="text-align: right;">37</td>
+									<td>00:04:22</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">PostHistory</td>	
+									<td style="text-align: right;">77.910.283	</td>
+									<td style="text-align: right;">74.8 GB	</td>
+									<td style="text-align: right;">80.000	</td>
+									<td style="text-align: right;">974	</td>
+									<td>01:29:30</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Posts	</td>
+									<td style="text-align: right;">32.209.817	</td>
+									<td style="text-align: right;">47.7 GB	</td>
+									<td style="text-align: right;">50.000	</td>
+									<td style="text-align: right;">645	</td>
+									<td>00:51:21</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">PostLinks	</td>
+									<td style="text-align: right;">3.335.637	</td>
+									<td style="text-align: right;">0.4 GB	</td>
+									<td style="text-align: right;">100.000	</td>
+									<td style="text-align: right;">34	</td>
+									<td>00:00:42</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Comments	</td>
+									<td style="text-align: right;">48.998.958	</td>
+									<td style="text-align: right;">12.5 GB	</td>
+									<td style="text-align: right;">200.000	</td>
+									<td style="text-align: right;">245	</td>
+									<td>00:18:55</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Tags	</td>
+									<td style="text-align: right;">45.426	</td>
+									<td style="text-align: right;">0.039 GB	</td>
+									<td style="text-align: right;">30.000	</td>
+									<td style="text-align: right;">2	</td>
+									<td>00:00:01</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Votes	</td>
+									<td style="text-align: right;">105.301.745	</td>
+									<td style="text-align: right;">10 GB	</td>
+									<td style="text-align: right;">500.000	</td>
+									<td style="text-align: right;">211	</td>
+									<td>00:14:49</td>
+								</tr>
+								<tr style="background-color: black; color: white;">
+									<td style="text-align: left;">Total	</td>
+									<td style="text-align: right;">292.184.272	</td>
+									<td style="text-align: right;">149.239 GB	</td>
+									<td style="text-align: right;">-	</td>
+									<td style="text-align: right;">2.178	</td>
+									<td>03:02:14</td>
+								</tr>
+							</tbody>
+						</table>		
+
+
+				</section>													
+				
+				<section>
+					<p> Preparação do Ambiente - <b>CARGA DOS DADOS</b> </p>
+					<div>
+						<img class="fragment" src="img/xmlOriginal.png" style="width:200px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						<img class="fragment fade-right" src="img/flechaDireita.png" style="width:100px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						<img class="fragment fade-up" src="img/xmlOriginal.png" style="width:75px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						<img class="fragment fade-up" src="img/xmlOriginal.png" style="width:75px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						<img class="fragment fade-up" src="img/xmlOriginal.png" style="width:75px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						<img class="fragment fade-up" src="img/xmlOriginal.png" style="width:75px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+					</div>
+					<div>
+						<img class="fragment fade-left" src="img/flechaDiagonal.png" style="margin: 0px; width:100px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+					</div>						
+					<div>
+						<img class="fragment fade-up" src="img/batOriginal.png" style="margin: 0px; width:200px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						<img class="fragment fade-right" src="img/flechaDireita.png" style="margin: 0px; width:100px; padding-bottom: 50px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						<img class="fragment fade-up" src="img/databaseOriginal.png" style="margin: 0px; width:200px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+					</div>					
+				</section>				
+
+				<section>
+					<pre>
+						<code class="hljs xml" data-trim contenteditable style="font-size:15px; max-height: 600px;">
+						INSERT INTO XmlPosts
+						SELECT 1,CONVERT(xml, BulkColumn, 2) as BulkColumn FROM
+							OPENROWSET(Bulk 'D:\XmlQuebrado\Posts\Posts_1.xml', SINGLE_BLOB)[rowsetresults]
+
+						declare @X1 xml = (select XmlCol from XmlPosts where linha = 1)
+
+						insert into Posts
+						SELECT
+							[Id] = XTbl.TypeNode.value('@Id', 'Int')
+							,[PostTypeId] = XTbl.TypeNode.value('@PostTypeId', 'int')
+							,[AcceptedAnswerId] = XTbl.TypeNode.value('@AcceptedAnswerId', 'int')
+							,[CreationDate] = XTbl.TypeNode.value('@CreationDate', 'datetime')
+							,[Score] = XTbl.TypeNode.value('@Score', 'int')
+							,[ViewCount] = XTbl.TypeNode.value('@ViewCount', 'int')
+							,[Body] = XTbl.TypeNode.value('@Body', 'varchar(max)')
+							,[OwnerUserId] = XTbl.TypeNode.value('@OwnerUserId', 'int')
+							,[LastEditorUserId] = XTbl.TypeNode.value('@LastEditorUserId', 'int')
+							,[LastEditorDisplayName] = XTbl.TypeNode.value('@LastEditorDisplayName', 'varchar(300)')
+							,[LastEditDate] = XTbl.TypeNode.value('@LastEditDate', 'datetime')
+							...
+						FROM
+							@X1.nodes('/row') AS XTbl(TypeNode)							
+						</code>
+					</pre>
+				</section>				
+
+				<section>
+					<p> Experimentos Realizados - <b>EXPERIMENTOS</b> </p>
+					<p>	&nbsp; </p>
+					<p>	&nbsp; </p>
+					<h6> Foram realizados diversos experimentos, verificando os beneficios com diferentes operações.</h6>
+				</section>				
+
+
+				<section data-transition="slide-in fade-out">
+					<!--EXPERIMENTO 1-->
+					<section>
+						<p>Consulta com filtro pela Primary Key</p>
+						<p>Busca por post específico</p>
+						<pre>
+							<code class="sql" data-trim style="text-align: center;">
+								select * from Posts where Id = 2334712
+								Retornando 1 linha de registro
+							</code>
+						</pre>
+
+						<div class="left">
+							
+							<table>
+								<thead>
+									<tr>
+										<th>Disco</th>
+										<th>Memória</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>00:00:00:017</td>
+										<td>00:00:00:000</td>
+									</tr>
+									<tr>
+										<td>00:00:00:010</td>
+										<td>00:00:00:000</td>
+									</tr>
+									<tr>
+										<td>00:00:00:010</td>
+										<td>00:00:00:000</td>
+									</tr>			
+									<tr>
+										<td>00:00:00:012</td>
+										<td>00:00:00:000</td>
+									</tr>	
+									<tr>
+										<td>00:00:00:014</td>
+										<td>00:00:00:000</td>
+									</tr>																						
+								</tbody>
+							</table>		
+
+							<table>
+								<thead>
+									<tr>
+										<th colspan="2">Média</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>00:00:00:013</td>
+										<td>00:00:00:000</td>
+									</tr>
+								</tbody>
+							</table>		
+							
+							<table>
+								<thead>
+									<tr>
+										<th>Diferença</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1300%</td>
+									</tr>
+								</tbody>
+							</table>						
+						</div>
+						<div class="right">
+							<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf1" data-chart="" src="" srcdoc=""></iframe>
+						</div>
+					</section>		
+
+					<!--EXPERIMENTO 2-->
+					<section>
+						<p>Consulta com filtro pela Foreign Key</p>
+						<p>Busca por posts de usuário específico</p>
+						<pre>
+							<code class="sql" data-trim style="text-align: center;">
+								select * from Posts where OwnerUserId = 150939
+								Retornando 45 linhas de registro
+							</code>
+						</pre>
+
+						<div class="left">
+							
+						<table>
+							<thead>
+								<tr>
+									<th>Disco</th>
+									<th>Memória</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:10:38:023</td>
+									<td>00:00:09:207</td>
+								</tr>
+								<tr>
+									<td>00:10:39:583</td>
+									<td>00:00:09:187</td>
+								</tr>
+								<tr>
+									<td>00:10:38:030</td>
+									<td>00:00:09:140</td>
+								</tr>			
+								<tr>
+									<td>00:10:39:067</td>
+									<td>00:00:09:237</td>
+								</tr>	
+								<tr>
+									<td>00:10:39:917</td>
+									<td>00:00:09:130</td>
+								</tr>																						
+							</tbody>
+						</table>		
+
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Média</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:10:38:923</td>
+									<td>00:00:09:180</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>6860%</td>
+								</tr>
+							</tbody>
+						</table>						
+						</div>
+						<div class="right">
+							<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf2" data-chart="" src="" srcdoc=""></iframe>
+						</div>
+					</section>	
+
+					<!--EXPERIMENTO 3-->
+					<section>
+						<p>Consulta com Like</p>
+						<pre>
+							<code class="sql" data-trim style="text-align: center;">
+								select * from Comments where Text Like '%SQL%'
+								Retornando 1.008.654 linhas de registro
+							</code>
+						</pre>
+
+						<div class="left">
+							
+						<table>
+							<thead>
+								<tr>
+									<th>Disco</th>
+									<th>Memória</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:05:37:110</td>
+									<td>00:03:19:329</td>
+								</tr>
+								<tr>
+									<td>00:05:39:493</td>
+									<td>00:03:18:163</td>
+								</tr>
+								<tr>
+									<td>00:05:39:280</td>
+									<td>00:03:17:277</td>
+								</tr>			
+								<tr>
+									<td>00:05:38:530</td>
+									<td>00:03:17:037</td>
+								</tr>	
+								<tr>
+									<td>00:05:39:960</td>
+									<td>00:03:20:553</td>
+								</tr>																						
+							</tbody>
+						</table>		
+
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Média</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:05:38:877</td>
+									<td>00:03:18:473</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>71%</td>
+								</tr>
+							</tbody>
+						</table>						
+						</div>
+						<div class="right">
+							<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf3" data-chart="" src="" srcdoc=""></iframe>
+						</div>
+					</section>	
+
+					<!--EXPERIMENTO 4-->
+					<section>
+						<p>Inserção de dados - 1 Milhão</p>
+						<pre>
+							<code class="sql" data-trim>
+								Select * into ##Comment2 from Comments where id >= 61767110
+
+								Delete Comments where id >= 61767110
+
+								insert into Comments
+								select * from ##Comments2
+							</code>
+						</pre>
+
+						<div class="left">
+							
+						<table>
+							<thead>
+								<tr>
+									<th>Disco</th>
+									<th>Memória</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:00:18:284</td>
+									<td>00:00:14:603</td>
+								</tr>
+								<tr>
+									<td>00:00:17:825</td>
+									<td>00:00:17:490</td>
+								</tr>
+								<tr>
+									<td>00:00:18:030</td>
+									<td>00:00:16:568</td>
+								</tr>			
+								<tr>
+									<td>00:00:18:592</td>
+									<td>00:00:15:014</td>
+								</tr>	
+								<tr>
+									<td>00:00:18:137</td>
+									<td>00:00:17:439</td>
+								</tr>																						
+							</tbody>
+						</table>		
+
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Média</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:00:18:173</td>
+									<td>00:00:16:223</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>12%</td>
+								</tr>
+							</tbody>
+						</table>						
+						</div>
+						<div class="right">
+							<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf4" data-chart="" src="" srcdoc=""></iframe>
+						</div>
+					</section>						
+
+
+					<!--EXPERIMENTO 5-->
+					<section>
+						<p>Exclusão de dados - 1 Milhão</p>
+						<pre>
+							<code class="sql" data-trim style="text-align: center;">
+								Delete Comments where id >= 61767110
+							</code>
+						</pre>
+
+						<div class="left">
+							
+						<table>
+							<thead>
+								<tr>
+									<th>Disco</th>
+									<th>Memória</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:00:28:525</td>
+									<td>00:00:03:323</td>
+								</tr>
+								<tr>
+									<td>00:00:29:478</td>
+									<td>00:00:05:221</td>
+								</tr>
+								<tr>
+									<td>00:00:29:925</td>
+									<td>00:00:04:503</td>
+								</tr>			
+								<tr>
+									<td>00:00:28:793</td>
+									<td>00:00:04:027</td>
+								</tr>	
+								<tr>
+									<td>00:00:29:076</td>
+									<td>00:00:03:964</td>
+								</tr>																						
+							</tbody>
+						</table>		
+
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Média</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:00:29:159</td>
+									<td>00:00:04:208</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>593%</td>
+								</tr>
+							</tbody>
+						</table>						
+						</div>
+						<div class="right">
+							<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf5" data-chart="" src="" srcdoc=""></iframe>
+						</div>
+					</section>		
+
+					<!--EXPERIMENTO 6-->
+					<section>
+						<p>Alteração de dados</p>
+						<pre>
+							<code class="sql" data-trim style="text-align: center;">
+								Update Posts set Body = 'Teste' where OwnerUserId = 150939
+								Alterando 45 registros
+							</code>
+						</pre>
+
+						<div class="left">
+							
+						<table>
+							<thead>
+								<tr>
+									<th>Disco</th>
+									<th>Memória</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:10:36:097</td>
+									<td>00:00:06:750</td>
+								</tr>
+								<tr>
+									<td>00:10:35:590</td>
+									<td>00:00:06:589</td>
+								</tr>
+								<tr>
+									<td>00:10:35:107</td>
+									<td>00:00:06:759</td>
+								</tr>			
+								<tr>
+									<td>00:10:35:863</td>
+									<td>00:00:06:632</td>
+								</tr>	
+								<tr>
+									<td>00:10:36:600</td>
+									<td>00:00:06:885</td>
+								</tr>																						
+							</tbody>
+						</table>		
+
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Média</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:10:35:850</td>
+									<td>00:00:06:723</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>9358%</td>
+								</tr>
+							</tbody>
+						</table>						
+						</div>
+						<div class="right">
+							<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf6" data-chart="" src="" srcdoc=""></iframe>
+						</div>
+					</section>	
+
+					<!--EXPERIMENTO 7-->
+					<section>
+						<p>Consulta com Join entre tabelas</p>
+						<p>Buscar dados de um usuário específico</p>
+						<pre>
+							<code class="sql" data-trim style="padding-left: 33%;">
+								Select * from Posts P
+								INNER JOIN PostHistory PH
+								&nbsp;&nbsp;&nbsp;on PH.PostId = P.Id
+								Where P.OwnerUserId = 150939
+								Retornando 160 linhas de registro
+							</code>
+						</pre>
+
+						<div class="left">
+							
+						<table>
+							<thead>
+								<tr>
+									<th>Disco</th>
+									<th>Memória</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:35:10:864</td>
+									<td>00:08:36:656</td>
+								</tr>
+								<tr>
+									<td>00:35:23:966</td>
+									<td>00:08:32:429</td>
+								</tr>
+								<tr>
+									<td>00:35:18:454</td>
+									<td>00:08:30:866</td>
+								</tr>			
+								<tr>
+									<td>00:35:15:379</td>
+									<td>00:08:32:197</td>
+								</tr>	
+								<tr>
+									<td>00:35:12:438</td>
+									<td>00:08:32:447</td>
+								</tr>																						
+							</tbody>
+						</table>		
+
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Média</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:35:16:220</td>
+									<td>00:08:33:120</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>312%</td>
+								</tr>
+							</tbody>
+						</table>						
+						</div>
+						<div class="right">
+							<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf7" data-chart="" src="" srcdoc=""></iframe>
+						</div>
+					</section>						
+
+
+					<!--EXPERIMENTO 8-->
+					<section>
+						<p>Consulta com filtro pela Foreign Key</p>
+						<p>Busca por posts de usuário específico com Bucket</p>
+						<pre>
+							<code class="sql" data-trim style="padding-left: 20%;">
+								Hash(OwnerUserId)
+								Bucket_Count = 3.000.000
+								select * from Posts where OwnerUserId = 150939
+								Retornando 45 linhas de registro
+							</code>
+						</pre>
+
+						<div class="left">
+							
+						<table>
+							<thead>
+								<tr>
+									<th>Bucket</th>
+									<th>Memória</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:00:00:086</td>
+									<td>00:00:09:207</td>
+								</tr>
+								<tr>
+									<td>00:00:00:087</td>
+									<td>00:00:09:187</td>
+								</tr>
+								<tr>
+									<td>00:00:00:086</td>
+									<td>00:00:09:140</td>
+								</tr>			
+								<tr>
+									<td>00:00:00:088</td>
+									<td>00:00:09:237</td>
+								</tr>	
+								<tr>
+									<td>00:00:00:089</td>
+									<td>00:00:09:130</td>
+								</tr>																						
+							</tbody>
+						</table>		
+
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Média</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:00:00:087</td>
+									<td>00:00:09:180</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>10428%</td>
+								</tr>
+							</tbody>
+						</table>						
+						</div>
+						<div class="right">
+							<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf8" data-chart="" src="" srcdoc=""></iframe>
+						</div>
+					</section>
+
+					<!--EXPERIMENTO 9-->
+					<section>
+						<p>Inserção através de Compiled Stored Procedure - 1 Milhão</p>
+						<pre>
+							<code class="sql" data-trim style="padding-left: 20%;">
+								Create procedure spExemplo
+									@Id int
+								with native_compilation, schemabinding
+								as
+								...
+							</code>
+						</pre>
+
+						<div class="left">
+							
+						<table>
+							<thead>
+								<tr>
+									<th>Disco</th>
+									<th>Memória</th>
+									<th>Procedure</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:02:30:411</td>
+									<td>00:02:05:992</td>
+									<td>00:00:09:076</td>
+								</tr>
+								<tr>
+									<td>00:02:30:793</td>
+									<td>00:02:04:953</td>
+									<td>00:00:09:723</td>
+								</tr>
+								<tr>
+									<td>00:02:29:143</td>
+									<td>00:02:05:864</td>
+									<td>00:00:09:643</td>
+								</tr>			
+								<tr>
+									<td>00:02:30:448</td>
+									<td>00:02:05:831</td>
+									<td>00:00:09:983</td>
+								</tr>	
+								<tr>
+									<td>00:02:31:027</td>
+									<td>00:02:05:837</td>
+									<td>00:00:09:729</td>
+								</tr>																						
+							</tbody>
+						</table>		
+
+						<table>
+							<thead>
+								<tr>
+									<th colspan="3">Média</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:02:30:364</td>
+									<td>00:02:05:695</td>
+									<td>00:00:09:791</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="text-align: left;">Disco x Memória</td>
+									<td style="text-align: right;">20%</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Memória x Procedure</td>
+									<td style="text-align: right;">1184%</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Disco x Procedure</td>
+									<td style="text-align: right;">1436%</td>
+								</tr>
+							</tbody>
+						</table>						
+						</div>
+						<div class="right">
+							<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf9" data-chart="" src="" srcdoc=""></iframe>
+						</div>
+					</section>
+					
+					
+					<!--EXPERIMENTO 10-->
+					<section>
+						<p>Exclusão através de Compiled Stored Procedure - 1 Milhão</p>
+						<pre>
+							<code class="sql" data-trim style="padding-left: 20%;">
+								Create procedure spExemplo
+									@Id int
+								with native_compilation, schemabinding
+								as
+								...
+							</code>
+						</pre>
+
+						<div class="left">
+							
+						<table>
+							<thead>
+								<tr>
+									<th>Disco</th>
+									<th>Memória</th>
+									<th>Procedure</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:05:03.267</td>	
+									<td>00:04:21.295</td>	
+									<td>00:00:02.156</td>
+								</tr>
+								<tr>
+									<td>00:04:58.234</td>	
+									<td>00:04:18.198</td>	
+									<td>00:00:01.937</td>
+								</tr>
+								<tr>
+									<td>00:05:01.691</td>	
+									<td>00:04:19.043</td>	
+									<td>00:00:01.993</td>
+								</tr>			
+								<tr>
+									<td>00:05:03.538</td>	
+									<td>00:04:19.521</td>	
+									<td>00:00:02.035</td>
+								</tr>	
+								<tr>
+									<td>00:04:58.761</td>	
+									<td>00:04:21.383</td>	
+									<td>00:00:02.244</td>
+								</tr>																						
+							</tbody>
+						</table>		
+
+						<table>
+							<thead>
+								<tr>
+									<th colspan="3">Média</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>00:05:01.098</td>	
+									<td>00:04:19.888</td>	
+									<td>00:00:02.073</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="text-align: left;">Disco x Memória</td>
+									<td style="text-align: right;">16%</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Memória x Procedure</td>
+									<td style="text-align: right;">12436%</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Disco x Procedure</td>
+									<td style="text-align: right;">14423%</td>
+								</tr>
+							</tbody>
+						</table>						
+						</div>
+						<div class="right">
+							<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf10" data-chart="" src="" srcdoc=""></iframe>
+						</div>
+					</section>					
+
+				</section>		
+
+				<section>
+					<section>
+					<p> Trabalho Relacionado <br> <b>COMPARAÇÃO COM TIMESTEN</b> </p>
+						<p>&nbsp;</p>
+					
+						<table>
+							<thead>
+								<tr>
+									<th style="background-color: black; color: white;">Característica</th>
+									<th style="background-color: black; color: white;">Servidor TimesTen</th>
+									<th style="background-color: black; color: white;">Servidor SQL Server</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="background-color: black; color: white;">Sistema Operacional</td>
+									<td>Windows Server 2012 R2</td>
+									<td>Windows Server 2016 Standard</td>
+								</tr>
+								<tr>
+									<td style="background-color: black; color: white;">Processador</td>
+									<td>Intel (R) Xeon (R) CPU E5-2690 v3 2,6 GHz</td>
+									<td>Intel (R) Xeon (R) CPU E5506 2.13Ghz</td>
+								</tr>
+								<tr>
+									<td style="background-color: black; color: white;">Memória RAM</td>
+									<td>256 GB</td>
+									<td>144 GB</td>
+								</tr>
+								<tr>
+									<td style="background-color: black; color: white;">Núcleos físicos</td>
+									<td>24</td>
+									<td>8</td>
+								</tr>								
+							</tbody>
+						</table>						
+					
+					
+					</section>	
+
+				<!--EXPERIMENTO 11 TIMESTEN-->
+				<section>
+					<p>Consulta com vinculo entre Posts e Users</p>
+					<pre>
+						<code class="sql" data-trim>
+							Select 
+								P.*
+								,U.*
+							FROM Posts P
+							INNER JOIN Users U
+								on U.Id = P.OwnerUserId
+							WHERE U.Id = 601245
+							Retornando 187* linhas de registro (1 a mais do que o TimesTen)
+						</code>
+					</pre>
+
+					<div class="left">
+						
+					<table>
+						<thead>
+							<tr>
+								<th>SGBD</th>
+								<th>Tempo</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Oracle</td>
+								<td>00:00:44.400</td>	
+							</tr>
+							<tr>
+								<td>Timesten</td>
+								<td>00:00:01.700</td>
+							</tr>							
+							<tr>
+								<td>SQL Server Disco</td>
+								<td>00:13:20.000</td>
+							</tr>							
+							<tr>
+								<td>SQL Server Memória</td>							
+								<td>00:00:09.000</td>
+							</tr>														
+						</tbody>
+					</table>		
+				
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="text-align: left;">Oracle - Disco x Memória</td>
+									<td style="text-align: right;">96%</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Microsoft - Disco x Memória</td>
+									<td style="text-align: right;">98%</td>
+								</tr>
+							</tbody>
+						</table>						
+					
+					</div>					
+					
+					<div class="right">
+						<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf11" data-chart="" src="" srcdoc=""></iframe>
+					</div>
+				</section>	
+
+				<!--EXPERIMENTO 12 TIMESTEN-->
+				<section>
+					<p>Alteração de registros com filtro LIKE</p>
+					<pre>
+						<code class="sql" data-trim>
+							Update Comments
+								Set Text = replace(text,'sed','sed123')
+							WHERE
+								Text Like '%Sed%'
+							Alterando 2.857.537* registros (43.532 a mais do que o TimesTen)
+						</code>
+					</pre>
+
+					<div class="left">
+						
+					<table>
+						<thead>
+							<tr>
+								<th>SGBD</th>
+								<th>Tempo</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Oracle</td>
+								<td>00:09:45.000</td>	
+							</tr>
+							<tr>
+								<td>Timesten</td>
+								<td>00:02:40.000</td>
+							</tr>							
+							<tr>
+								<td>SQL Server Disco</td>
+								<td>00:38:30.000</td>
+							</tr>							
+							<tr>
+								<td>SQL Server Memória</td>							
+								<td>00:24:15.000</td>
+							</tr>														
+						</tbody>
+					</table>		
+				
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="text-align: left;">Oracle - Disco x Memória</td>
+									<td style="text-align: right;">72%</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Microsoft - Disco x Memória</td>
+									<td style="text-align: right;">36%</td>
+								</tr>
+							</tbody>
+						</table>						
+					
+					</div>					
+					
+					<div class="right">
+						<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf12" data-chart="" src="" srcdoc=""></iframe>
+					</div>
+				</section>				
+				
+				<!--EXPERIMENTO 13 TIMESTEN-->
+				<section>
+					<p>Inserção de 10 mil registros</p>
+					<pre>
+						<code class="sql" contenteditable data-trim>
+							insert into Tags values (150001,'.net',233796,3624959,3607476)
+							insert into Tags values (150002,'html',545013,3673183,3673182)
+							insert into Tags values (150003,'javascript',1143897,3624960,3607052)
+							...
+						</code>
+					</pre>
+
+					<div class="left">
+						
+					<table>
+						<thead>
+							<tr>
+								<th>SGBD</th>
+								<th>Tempo</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Oracle</td>
+								<td>00:02:41.150</td>
+							</tr>
+							<tr>
+								<td>Timesten</td>
+								<td>00:02:38.270</td>
+							</tr>							
+							<tr>
+								<td>SQL Server Disco</td>
+								<td>00:00:03.400</td>
+							</tr>							
+							<tr>
+								<td>SQL Server Memória</td>							
+								<td>00:00:03.300</td>
+							</tr>														
+						</tbody>
+					</table>		
+				
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Diferença</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="text-align: left;">Oracle - Disco x Memória</td>
+									<td style="text-align: right;">1,78%</td>
+								</tr>
+								<tr>
+									<td style="text-align: left;">Microsoft - Disco x Memória</td>
+									<td style="text-align: right;">2,94%</td>
+								</tr>
+							</tbody>
+						</table>						
+					
+					</div>					
+					
+					<div class="right">
+						<iframe style="overflow: hidden; height: 383px; width: 580px;" class="stretch" scrolling="no" id="graf13" data-chart="" src="" srcdoc=""></iframe>
+					</div>
+				</section>							
+				</section>							
+				
+
+				<section>
+					<p><b>CONCLUSÃO</b> </p>
+					<!--<p><b>CONCLUSÃO</b> </p>
+					<p>&nbsp;</p>
+					
+					<div class="fragment fade-left">
+						<img src="img/timesten_logo.bmp" style="width:180px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						<img src="img/sql_logo.png" style="width:180px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						<img src="img/redis_logo.png" style="width:180px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+						<img src="img/voltdb_logo.jpg" style="width:180px; border: 0px; box-shadow: 0 0 0px rgba(0, 0, 0, 0);">
+					</div-->
+				</section>					
+			</div>
+		</div>
+
+		<script src="reveal/lib/js/head.min.js"></script>
+		<script src="reveal/js/reveal.js"></script>
+		
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			//ESSE  https://dvenkatsagar.github.io/prez/reveal-chart.html#/2
+			Reveal.initialize({
+
+				controls: true,
+				progress: true,
+				dependencies: [
+					{ src: 'reveal-chart/plugin/chartjs/Chart.min.js'},
+					{ src: 'reveal-chart/plugin/chartjs/charted.js'},
+					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+			  chart : {
+			    items : [
+			      {
+			        selector : "#graf1",
+			        type : "line",
+			        data : {
+
+			          labels: ["Exec 1", "Exec 2", "Exec 3", "Exec 4", "Exec 5"],
+			          datasets: [
+			            {
+			              label: "Armazenamento em disco",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: [17, 10, 10, 12, 14]
+			            },
+			            {
+			              label: "Armazenamento em memória",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [0, 0, 0, 0, 0]
+			            }
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }
+			      ,
+			      {
+			        selector : "#graf2",
+			        type : "line",
+			        data : {
+
+			          labels: ["Exec 1", "Exec 2", "Exec 3", "Exec 4", "Exec 5"],
+			          datasets: [
+			            {
+			              label: "Armazenamento em disco",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: [638023, 639583, 638030, 639067, 639917]
+			            },
+			            {
+			              label: "Armazenamento em memória",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [9207,9187,9140,9237,9130]
+			            }
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }		
+			      ,
+			      {
+			        selector : "#graf3",
+			        type : "line",
+			        data : {
+
+			          labels: ["Exec 1", "Exec 2", "Exec 3", "Exec 4", "Exec 5"],
+			          datasets: [
+			            {
+			              label: "Armazenamento em disco",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: [337110,339493,339280,338530,339960]
+			            },
+			            {
+			              label: "Armazenamento em memória",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [199329,198163,197277,197037,200553]
+			            }
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }	
+			      ,
+			      {
+			        selector : "#graf4",
+			        type : "line",
+			        data : {
+
+			          labels: ["Exec 1", "Exec 2", "Exec 3", "Exec 4", "Exec 5"],
+			          datasets: [
+			            {
+			              label: "Armazenamento em disco",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: 
+			              [18284,17825,18030,18592,18137]
+			            },
+			            {
+			              label: "Armazenamento em memória",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [14603,17490,16568,15014,17439]
+			            }
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }	
+			      ,
+			      {
+			        selector : "#graf5",
+			        type : "line",
+			        data : {
+
+			          labels: ["Exec 1", "Exec 2", "Exec 3", "Exec 4", "Exec 5"],
+			          datasets: [
+			            {
+			              label: "Armazenamento em disco",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: 
+			              [28525,29478,29925,28793,29076]
+			            },
+			            {
+			              label: "Armazenamento em memória",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [3323,5221,4503,4027,3964]
+			            }
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }	
+			      ,
+			      {
+			        selector : "#graf6",
+			        type : "line",
+			        data : {
+
+			          labels: ["Exec 1", "Exec 2", "Exec 3", "Exec 4", "Exec 5"],
+			          datasets: [
+			            {
+			              label: "Armazenamento em disco",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: 
+			              [636097,635590,635107,635863,636600]
+			            },
+			            {
+			              label: "Armazenamento em memória",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [6750,6589,6759,6632,6885]
+			            }
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }
+			      ,
+			      {
+			        selector : "#graf7",
+			        type : "line",
+			        data : {
+
+			          labels: ["Exec 1", "Exec 2", "Exec 3", "Exec 4", "Exec 5"],
+			          datasets: [
+			            {
+			              label: "Armazenamento em disco",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: 
+			              [2110864,2123966,2118454,2115379,2112438]
+			            },
+			            {
+			              label: "Armazenamento em memória",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [516656,512429,510866,512197,513447]
+			            }
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }
+			      ,
+			      {
+			        selector : "#graf8",
+			        type : "line",
+			        data : {
+
+			          labels: ["Exec 1", "Exec 2", "Exec 3", "Exec 4", "Exec 5"],
+			          datasets: [
+			            {
+			              label: "Bucket",
+			              fillColor: "rgba(66,162,8,0.2)",
+			              strokeColor: "rgba(66,162,8,1)",
+			              pointColor: "rgba(66,162,8,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(66,162,8,1)",
+			              data: [86,87,86,88,89]
+			            },
+			            {
+			              label: "Memória",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [9207,9187,9140,9237,9130]
+			            }
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }		
+			      ,
+			      {
+			        selector : "#graf9",
+			        type : "line",
+			        data : {
+
+			          labels: ["Exec 1", "Exec 2", "Exec 3", "Exec 4", "Exec 5"],
+			          datasets: [
+			            {
+			              label: "Disco",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: 
+			              [150411,150793,149143,150448,151027]
+			            },
+			            {
+			              label: "Memória",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [125992,124953,125864,125831,125837]
+			            }
+,
+			            {
+			              label: "Procedure",
+			              fillColor: "rgba(108,10,212,0.2)",
+			              strokeColor: "rgba(108,10,212,1)",
+			              pointColor: "rgba(108,10,212,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(108,10,212,1)",
+			              data: [9876,9723,9643,9983,9729]
+			            }			            
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }
+			      ,
+			      {
+			        selector : "#graf10",
+			        type : "line",
+			        data : {
+
+			          labels: ["Exec 1", "Exec 2", "Exec 3", "Exec 4", "Exec 5"],
+			          datasets: [
+			            {
+			              label: "Disco",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: 
+			              [303267,298234,301691,303538,298761]
+			            },
+			            {
+			              label: "Memória",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [261295,258198,259043,259521,261383]
+			            }
+					,
+			            {
+			              label: "Procedure",
+			              fillColor: "rgba(108,10,212,0.2)",
+			              strokeColor: "rgba(108,10,212,1)",
+			              pointColor: "rgba(108,10,212,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(108,10,212,1)",
+			              data: [2157,1937,1993,2035,2244]
+			            }			            
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }				  
+			      ,
+			      {
+			        selector : "#graf11",
+			        type : "bar",
+			        data : {
+			          labels: ["Média de Tempo"],
+			          datasets: [
+			            {
+			              label: "1",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: 
+			              [44400]
+			            },
+			            {
+			              label: "2",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [1700]
+			            }
+					,
+			            {
+			              label: "3",
+			              fillColor: "rgba(108,10,212,0.2)",
+			              strokeColor: "rgba(108,10,212,1)",
+			              pointColor: "rgba(108,10,212,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(108,10,212,1)",
+			              data: [800000]
+			            }		
+					,
+			            {
+			              label: "4",
+			              fillColor: "rgba(173,255,47,0.2)",
+			              strokeColor: "rgba(173,255,47,1)",
+			              pointColor: "rgba(173,255,47,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(173,255,47,1)",
+			              data: [9000]
+			            }							
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }				  
+				  
+			      ,
+			      {
+			        selector : "#graf12",
+			        type : "bar",
+			        data : {
+			          labels: ["Média de Tempo"],
+			          datasets: [
+			            {
+			              label: "1",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: 
+			              [585000]
+			            },
+			            {
+			              label: "2",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [120400]
+			            }
+					,
+			            {
+			              label: "3",
+			              fillColor: "rgba(108,10,212,0.2)",
+			              strokeColor: "rgba(108,10,212,1)",
+			              pointColor: "rgba(108,10,212,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(108,10,212,1)",
+			              data: [2310000]
+			            }		
+					,
+			            {
+			              label: "4",
+			              fillColor: "rgba(173,255,47,0.2)",
+			              strokeColor: "rgba(173,255,47,1)",
+			              pointColor: "rgba(173,255,47,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(173,255,47,1)",
+			              data: [1455000]
+			            }							
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }						  
+				  
+				  
+			      ,
+			      {
+			        selector : "#graf13",
+			        type : "bar",
+			        data : {
+			          labels: ["Média de Tempo"],
+			          datasets: [
+			            {
+			              label: "1",
+			              fillColor: "rgba(218,48,19,0.2)",
+			              strokeColor: "rgba(218,48,19,1)",
+			              pointColor: "rgba(218,48,19,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(218,48,19,1)",
+			              data: 
+			              [161150]
+			            },
+			            {
+			              label: "2",
+			              fillColor: "rgba(26,106,208,0.2)",
+			              strokeColor: "rgba(26,106,208,1)",
+			              pointColor: "rgba(26,106,208,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(26,106,208,1)",
+			              data: [158270]
+			            }
+					,
+			            {
+			              label: "3",
+			              fillColor: "rgba(108,10,212,0.2)",
+			              strokeColor: "rgba(108,10,212,1)",
+			              pointColor: "rgba(108,10,212,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(108,10,212,1)",
+			              data: [3400]
+			            }		
+					,
+			            {
+			              label: "4",
+			              fillColor: "rgba(173,255,47,0.2)",
+			              strokeColor: "rgba(173,255,47,1)",
+			              pointColor: "rgba(173,255,47,1)",
+			              pointStrokeColor: "#fff",
+			              pointHighlightFill: "#fff",
+			              pointHighlightStroke: "rgba(173,255,47,1)",
+			              data: [3300]
+			            }							
+			          ]
+			        },
+			        options : {
+			        	responsive:true,
+						legend: {
+							labels: { fontColor: "#000" }
+						},	        	
+			        }
+			      }						  
+				  
+				  
+			    ]
+			  }				
+			});
+		</script>
+		
+	</body>
+</html>

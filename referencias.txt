@@ -1,0 +1,9 @@
+https://ignite.apache.org/memorycentric.html
+	https://ignite.apache.org/images/memory-centric.png
+	
+https://www.backblaze.com/blog/hard-drive-cost-per-gigabyte/
+	https://www.backblaze.com/blog/wp-content/uploads/2017/07/chart-cost-per-gb-2017.jpg
+	
+	http://www.itmplatform.com/lib/uploads/Time-is-money.jpg
+	
+	http://opensourceforu.com/wp-content/uploads/2015/05/Database-storage-concept-Hard-disk-icon-with-folders-isolated_78159024.jpg

@@ -1,0 +1,30 @@
+trocar armazenamento por indexação
+criar section de convertendo tabela em disco pra memória (editavel na hora)
+
+
+Memory-optimized nonclustered index (criado sempre que o banco fica up)
+hash index (melhor index do sql server)
+
+Apresentar testes com hash index
+
+
+Comparação entre ferramentas
+
+	
+** SQL não tem
+	Compressao em memória
+	
+** SAP não tem
+	Suporte XML
+
+** Valores
+	SQL > Oracle > SAP (não tem dado)
+ + Val Memória	
+	gratis > oracle > sap
+	
+
+Segundo o National Institute of Standards and Technology Comprehensive Vulnerability Database
+
+Sql > Hana > Timesten
+
+
