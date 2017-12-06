@@ -1521,9 +1521,12 @@
 				controls: true,
 				progress: true,
 				slideNumber: true,
+				progressBarHeight: 6,
+				allottedTime: 25 * 60 * 1000, //tempo pra apresentar mm/ss/ms				
 				dependencies: [
 					{ src: 'reveal-chart/plugin/chartjs/Chart.min.js'},
 					{ src: 'reveal-chart/plugin/chartjs/charted.js'},
+					{ src: 'reveal/plugin/elapsed-time-bar/plugin/elapsed-time-bar/elapsed-time-bar.js'},
 					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				],
 			  chart : {
